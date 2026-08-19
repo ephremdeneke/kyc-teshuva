@@ -2,12 +2,15 @@
    REGISTRATION CARD — Professional Design
    ============================================================ */
 
-/* Cutting gutter: 5mm around each card for scissors/trimmer */
+/* Cutting gutter: margin between card pairs + padding for scissors */
 .card-cut-gutter {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding: 8px 0;
+  margin: 8px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
 /* Card dimensions (CR-80: 85.6mm × 53.98mm) */
@@ -39,8 +42,8 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  backdrop-filter: blur(8px) saturate(1.2);
-  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+  backdrop-filter: blur(4px) saturate(1.1);
+  -webkit-backdrop-filter: blur(4px) saturate(1.1);
 }
 
 /* Dark tint overlay */
@@ -88,7 +91,7 @@
 .card-hero-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 14px;
 }
 
 .card-hero-ring {
@@ -145,10 +148,20 @@
   white-space: nowrap;
 }
 
-.card-participant-role {
+.card-participant-id {
   font-size: 9px;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-top: 3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.card-participant-role {
+  font-size: 8px;
   font-weight: 500;
-  opacity: 0.8;
+  opacity: 0.7;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   margin-top: 2px;
@@ -159,19 +172,6 @@
   border-radius: 8px;
   padding: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card-bottom {
-  text-align: center;
-}
-
-.card-regid {
-  font-size: 10px;
-  font-weight: 600;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 1px;
-  opacity: 0.85;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* ============ BACK ============ */

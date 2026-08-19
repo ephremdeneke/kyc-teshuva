@@ -91,11 +91,13 @@
     padding: 2mm !important;
   }
 
-  /* Each card-cut-gutter provides 3mm padding for cutting */
+  /* Each card-cut-gutter provides padding for cutting + separation between pairs */
   .card-cut-gutter {
-    padding: 3mm !important;
+    padding: 4mm 2mm !important;
+    margin: 4mm 0 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+    border-bottom: 0.3pt dashed #ccc !important;
   }
 
   .print-card {

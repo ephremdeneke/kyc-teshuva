@@ -32,25 +32,21 @@ export default function RegistrationCard({ participant, variant }: Props) {
               </div>
             </div>
             <div className="card-event-text">
-              <div className="card-event-title">Teshuva 2026 </div>
+              <div className="card-event-title"> Teshuva 2026 </div>
               <div className="card-event-sub">Hossana Kalehiwot Church</div>
             </div>
           </div>
 
-          {/* Center: Name + Category */}
+          {/* Center: Name + ID + Category */}
           <div className="card-center">
             <div className="card-participant-name">{participant.fullName}</div>
+            <div className="card-participant-id">{participant.registrationId}</div>
             <div className="card-participant-role">{participant.category || 'Participant'}</div>
           </div>
 
           {/* QR Code */}
           <div className="card-qr-wrap">
             <QRCodeSVG value={participant.registrationId} size={68} level="H" />
-          </div>
-
-          {/* Bottom: Reg ID */}
-          <div className="card-bottom">
-            <div className="card-regid">{participant.registrationId}</div>
           </div>
         </div>
       </div>

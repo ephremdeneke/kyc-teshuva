@@ -36,22 +36,19 @@ function PrintCard({ participant, index }: { participant: SheetParticipant; inde
               </div>
             </div>
             <div className="card-event-text">
-              <div className="card-event-title">HKC EVENT 2026</div>
+              <div className="card-event-title">TESHUVA 2026</div>
               <div className="card-event-sub">Hossana Kalehiwot Church</div>
             </div>
           </div>
 
           <div className="card-center">
             <div className="card-participant-name">{participant.fullName}</div>
+            <div className="card-participant-id">{participant.registrationId}</div>
             <div className="card-participant-role">Participant</div>
           </div>
 
           <div className="card-qr-wrap">
             <QRCodeSVG value={participant.registrationId} size={68} level="H" />
-          </div>
-
-          <div className="card-bottom">
-            <div className="card-regid">{participant.registrationId}</div>
           </div>
         </div>
       </div>
@@ -138,7 +135,7 @@ export default function BulkCardPage() {
     if (!printRef.current) return
 
     const cardCSS = `
-      .card-cut-gutter { display: flex; flex-direction: column; align-items: center; gap: 2mm; padding: 3mm; }
+      .card-cut-gutter { display: flex; flex-direction: column; align-items: center; gap: 2mm; padding: 4mm 2mm; margin: 4mm 0; border-bottom: 0.3pt dashed #ccc; }
       .print-card { display: inline-block; margin: 2mm; vertical-align: top; }
       .card-front-wrap, .card-back-wrap { position: relative; width: 85.6mm; height: 53.98mm; border-radius: 3mm; overflow: hidden; page-break-inside: avoid; break-inside: avoid; }
       .card-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
@@ -147,7 +144,7 @@ export default function BulkCardPage() {
       .card-bg-overlay-dark { background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.50) 50%, rgba(0,0,0,0.65) 100%); }
       .card-front-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3mm 4mm 2mm; color: white; }
       .card-top { display: flex; flex-direction: column; align-items: center; gap: 0.8mm; }
-      .card-hero-row { display: flex; align-items: center; gap: 2mm; }
+      .card-hero-row { display: flex; align-items: center; gap: 4mm; }
       .card-hero-ring { width: 12mm; height: 12mm; border-radius: 50%; border: 0.7mm solid; padding: 0.5mm; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); overflow: hidden; flex-shrink: 0; }
       .card-hero-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
       .card-event-text { text-align: center; }
@@ -155,7 +152,8 @@ export default function BulkCardPage() {
       .card-event-sub { font-size: 2.5pt; opacity: 0.75; letter-spacing: 0.2pt; margin-top: 0.3mm; }
       .card-center { text-align: center; }
       .card-participant-name { font-size: 5pt; font-weight: 700; letter-spacing: 0.1pt; text-shadow: 0 0.3mm 1mm rgba(0,0,0,0.4); line-height: 1.2; max-width: 65mm; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .card-participant-role { font-size: 2.8pt; font-weight: 500; opacity: 0.8; letter-spacing: 0.5pt; text-transform: uppercase; margin-top: 0.5mm; }
+      .card-participant-id { font-size: 2.5pt; font-weight: 600; font-family: 'Courier New', monospace; letter-spacing: 0.3pt; opacity: 0.75; margin-top: 0.5mm; text-shadow: 0 0.3mm 0.5mm rgba(0,0,0,0.3); }
+      .card-participant-role { font-size: 2.5pt; font-weight: 500; opacity: 0.7; letter-spacing: 0.5pt; text-transform: uppercase; margin-top: 0.5mm; }
       .card-qr-wrap { background: rgba(255,255,255,0.95); border-radius: 2mm; padding: 1.5mm; box-shadow: 0 0.5mm 2mm rgba(0,0,0,0.2); }
       .card-qr-wrap svg { width: 17mm; height: 17mm; }
       .card-bottom { text-align: center; }
