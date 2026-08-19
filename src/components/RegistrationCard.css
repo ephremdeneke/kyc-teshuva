@@ -91,12 +91,19 @@
 .card-hero-row {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
+  width: 100%;
+}
+
+.card-hero-center {
+  flex: 1;
+  text-align: center;
+  min-width: 0;
 }
 
 .card-hero-ring {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 2.5px solid;
   padding: 2px;
@@ -113,21 +120,24 @@
   object-fit: cover;
 }
 
-.card-event-text {
-  text-align: center;
-}
-
 .card-event-title {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .card-event-sub {
-  font-size: 7.5px;
+  font-size: 7px;
   opacity: 0.75;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+}
+
+.card-event-year {
+  font-size: 6px;
+  opacity: 0.55;
   letter-spacing: 0.5px;
   margin-top: 1px;
 }
@@ -149,11 +159,11 @@
 }
 
 .card-participant-id {
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 800;
   font-family: 'Courier New', monospace;
   letter-spacing: 1px;
-  opacity: 0.75;
+  opacity: 0.85;
   margin-top: 3px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }

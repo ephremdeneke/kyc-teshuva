@@ -21,19 +21,20 @@ export default function RegistrationCard({ participant, variant }: Props) {
         <div className="card-bg-overlay" />
 
         <div className="card-front-content">
-          {/* Top: Hero images + Event */}
+          {/* Top: Hero — Ring | Text | Ring */}
           <div className="card-top">
             <div className="card-hero-row">
               <div className="card-hero-ring" style={{ borderColor: accentColor }}>
                 <img src="/card-hero.jpg" alt="HKC" />
               </div>
+              <div className="card-hero-center">
+                <div className="card-event-title">TESHUVA 2018</div>
+                <div className="card-event-sub">Hossana Kalehiwot Church</div>
+                <div className="card-event-year">Registration Card 2026</div>
+              </div>
               <div className="card-hero-ring" style={{ borderColor: accentColor }}>
                 <img src="/church.jpg" alt="Church" />
               </div>
-            </div>
-            <div className="card-event-text">
-              <div className="card-event-title"> Teshuva 2026 </div>
-              <div className="card-event-sub">Hossana Kalehiwot Church</div>
             </div>
           </div>
 

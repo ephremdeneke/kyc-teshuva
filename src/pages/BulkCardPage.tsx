@@ -31,13 +31,14 @@ function PrintCard({ participant, index }: { participant: SheetParticipant; inde
               <div className="card-hero-ring" style={{ borderColor: accentColor }}>
                 <img src="/card-hero.jpg" alt="HKC" />
               </div>
+              <div className="card-hero-center">
+                <div className="card-event-title">TESHUVA 2018</div>
+                <div className="card-event-sub">Hossana Kalehiwot Church</div>
+                <div className="card-event-year">Registration Card 2026</div>
+              </div>
               <div className="card-hero-ring" style={{ borderColor: accentColor }}>
                 <img src="/church.jpg" alt="Church" />
               </div>
-            </div>
-            <div className="card-event-text">
-              <div className="card-event-title">TESHUVA 2026</div>
-              <div className="card-event-sub">Hossana Kalehiwot Church</div>
             </div>
           </div>
 
@@ -144,15 +145,17 @@ export default function BulkCardPage() {
       .card-bg-overlay-dark { background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.50) 50%, rgba(0,0,0,0.65) 100%); }
       .card-front-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3mm 4mm 2mm; color: white; }
       .card-top { display: flex; flex-direction: column; align-items: center; gap: 0.8mm; }
-      .card-hero-row { display: flex; align-items: center; gap: 4mm; }
-      .card-hero-ring { width: 12mm; height: 12mm; border-radius: 50%; border: 0.7mm solid; padding: 0.5mm; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); overflow: hidden; flex-shrink: 0; }
+      .card-hero-row { display: flex; align-items: center; gap: 5mm; width: 100%; }
+      .card-hero-center { flex: 1; text-align: center; min-width: 0; }
+      .card-hero-ring { width: 11mm; height: 11mm; border-radius: 50%; border: 0.7mm solid; padding: 0.5mm; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); overflow: hidden; flex-shrink: 0; }
       .card-hero-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
       .card-event-text { text-align: center; }
-      .card-event-title { font-size: 3pt; font-weight: 800; letter-spacing: 0.8pt; text-transform: uppercase; text-shadow: 0 0.3mm 1mm rgba(0,0,0,0.4); }
-      .card-event-sub { font-size: 2.5pt; opacity: 0.75; letter-spacing: 0.2pt; margin-top: 0.3mm; }
+      .card-event-title { font-size: 3pt; font-weight: 800; letter-spacing: 0.6pt; text-transform: uppercase; text-shadow: 0 0.3mm 1mm rgba(0,0,0,0.4); }
+      .card-event-sub { font-size: 2.2pt; opacity: 0.75; letter-spacing: 0.1pt; margin-top: 0.2mm; }
+      .card-event-year { font-size: 1.8pt; opacity: 0.55; letter-spacing: 0.1pt; margin-top: 0.2mm; }
       .card-center { text-align: center; }
       .card-participant-name { font-size: 5pt; font-weight: 700; letter-spacing: 0.1pt; text-shadow: 0 0.3mm 1mm rgba(0,0,0,0.4); line-height: 1.2; max-width: 65mm; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .card-participant-id { font-size: 2.5pt; font-weight: 600; font-family: 'Courier New', monospace; letter-spacing: 0.3pt; opacity: 0.75; margin-top: 0.5mm; text-shadow: 0 0.3mm 0.5mm rgba(0,0,0,0.3); }
+      .card-participant-id { font-size: 2.8pt; font-weight: 800; font-family: 'Courier New', monospace; letter-spacing: 0.3pt; opacity: 0.85; margin-top: 0.5mm; text-shadow: 0 0.3mm 0.5mm rgba(0,0,0,0.3); }
       .card-participant-role { font-size: 2.5pt; font-weight: 500; opacity: 0.7; letter-spacing: 0.5pt; text-transform: uppercase; margin-top: 0.5mm; }
       .card-qr-wrap { background: rgba(255,255,255,0.95); border-radius: 2mm; padding: 1.5mm; box-shadow: 0 0.5mm 2mm rgba(0,0,0,0.2); }
       .card-qr-wrap svg { width: 17mm; height: 17mm; }

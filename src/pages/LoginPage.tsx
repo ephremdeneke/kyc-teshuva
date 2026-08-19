@@ -119,16 +119,6 @@ export default function LoginPage() {
           </form>
         </div>
 
-        {/* Default credentials hint */}
-        <div className="card p-4">
-          <div className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide mb-2">Default Logins</div>
-          <div className="space-y-1.5">
-            <HintRow role="Admin" phone="0000" pin="1234" />
-            <HintRow role="Registration" phone="0001" pin="1111" />
-            <HintRow role="Meal Staff" phone="0002" pin="2222" />
-          </div>
-        </div>
-
         {/* Skip (demo only) */}
         <button
           onClick={() => navigate('/')}
@@ -137,17 +127,6 @@ export default function LoginPage() {
           Skip for demo
         </button>
       </div>
-    </div>
-  )
-}
-
-function HintRow({ role, phone, pin }: { role: string; phone: string; pin: string }) {
-  return (
-    <div className="flex items-center justify-between text-[11px]">
-      <span className="text-gray-600 font-medium">{role}</span>
-      <span className="text-gray-400 font-mono">
-        {phone} / {pin}
-      </span>
     </div>
   )
 }
