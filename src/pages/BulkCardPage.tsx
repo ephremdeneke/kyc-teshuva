@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
-import { fetchSheetData, type SheetParticipant } from '../sheetService'
-import { Printer, Download, Loader2, ArrowLeft } from 'lucide-react'
+import { type SheetParticipant } from '../sheetService'
+import { useSheetData } from '../useSheetData'
+import ConfigBanner from '../components/ConfigBanner'
+import { Printer, Download, Loader2, ArrowLeft, RefreshCw } from 'lucide-react'
 import '../components/RegistrationCard.css'
 
 function getCardColor(index: number): 'red' | 'yellow' {
@@ -92,20 +94,17 @@ function PrintCard({ participant, index }: { participant: SheetParticipant; inde
 }
 
 export default function BulkCardPage() {
-  const [participants, setParticipants] = useState<SheetParticipant[]>([])
-  const [loading, setLoading] = useState(true)
+  const { data: participants, loading, error, refresh } = useSheetData()
   const [generating, setGenerating] = useState(false)
   const [showCards, setShowCards] = useState(false)
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const printRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    fetchSheetData().then((data) => {
-      setParticipants(data)
-      setSelected(new Set(data.map((p) => p.registrationId)))
-      setLoading(false)
-    })
-  }, [])
+    if (participants.length > 0 && selected.size === 0) {
+      setSelected(new Set(participants.map((p) => p.registrationId)))
+    }
+  }, [participants])
 
   const toggleAll = () => {
     if (selected.size === participants.length) {
@@ -209,6 +208,15 @@ ${printRef.current.innerHTML}
           <Loader2 className="w-10 h-10 text-emerald-500 animate-spin mx-auto" />
           <div className="text-sm text-gray-500">Loading participants...</div>
         </div>
+      </div>
+    )
+  }
+
+  if (error === 'APP_CONFIG_MISSING') {
+    return (
+      <div className="space-y-4 pt-4">
+        <h1 className="text-lg font-bold">Bulk Card Generator</h1>
+        <ConfigBanner />
       </div>
     )
   }

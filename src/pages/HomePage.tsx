@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { UserPlus, QrCode, BarChart3, Users, CreditCard } from 'lucide-react'
-import { fetchSheetData } from '../sheetService'
+import { UserPlus, QrCode, BarChart3, Users, CreditCard, RefreshCw } from 'lucide-react'
+import { useSheetData } from '../useSheetData'
+import ConfigBanner from '../components/ConfigBanner'
 
 export default function HomePage() {
-  const [totalCount, setTotalCount] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const { data, loading, error, lastUpdated, refresh } = useSheetData()
+  const totalCount = data.length
 
-  useEffect(() => {
-    fetchSheetData().then((data) => {
-      setTotalCount(data.length)
-      setLoading(false)
-    })
-  }, [])
+  if (error === 'APP_CONFIG_MISSING') {
+    return (
+      <div className="space-y-5 pt-4">
+        <h1 className="text-lg font-bold">HKC Event 2026</h1>
+        <ConfigBanner />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-5 pt-4">
@@ -36,6 +38,20 @@ export default function HomePage() {
           </div>
           <p className="text-[11px] opacity-70 mt-1">Registration & Meal Verification System</p>
         </div>
+      </div>
+
+      {/* Auto-refresh indicator */}
+      <div className="flex items-center justify-between">
+        <div className="text-[11px] text-gray-400">
+          {lastUpdated && `Updated ${lastUpdated.toLocaleTimeString()}`}
+        </div>
+        <button
+          onClick={refresh}
+          className="flex items-center gap-1 text-[11px] text-gray-400 hover:text-emerald-600 transition-colors"
+        >
+          <RefreshCw size={12} className={loading ? 'animate-spin' : ''} />
+          Refresh
+        </button>
       </div>
 
       {/* Stats Row */}

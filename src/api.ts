@@ -1,36 +1,42 @@
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// API client — calls Google Apps Script backend
+// After deploying, update the URL in .env:
+//   VITE_API_URL=https://script.google.com/macros/s/YOUR_ID/exec
 
-async function apiCall(endpoint: string, method = 'GET', body?: unknown) {
-  const url = `${API_BASE}/api/${endpoint}`;
-  const options: RequestInit = {
-    method,
+const API_URL = import.meta.env.VITE_API_URL || '';
+
+async function apiCall(params: Record<string, string>) {
+  const url = new URL(API_URL);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+async function apiPost(body: Record<string, unknown>) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-  };
-  if (body) options.body = JSON.stringify(body);
-  
-  const res = await fetch(url, options);
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Request failed' }));
-    throw new Error(err.error || `HTTP ${res.status}`);
-  }
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
 export const api = {
-  getParticipants: () => apiCall('participants'),
-  getParticipant: (id: string) => apiCall(`participants/${id}`),
-  getParticipantByQR: (qrToken: string) => apiCall(`participants/qr/${qrToken}`),
-  createParticipant: (data: Record<string, unknown>) => apiCall('participants', 'POST', data),
-  updateParticipant: (id: string, data: Record<string, unknown>) => apiCall(`participants/${id}`, 'PUT', data),
-  deleteParticipant: (id: string) => apiCall(`participants/${id}`, 'DELETE'),
-  
-  verifyMeal: (registrationId: string) => apiCall(`meals/verify/${registrationId}`),
-  recordMeal: (data: { registrationId: string; distributedBy: string }) => apiCall('meals', 'POST', data),
-  getMealHistory: (registrationId: string) => apiCall(`meals/history/${registrationId}`),
-  
-  getStats: () => apiCall('stats'),
-  getEventConfig: () => apiCall('config'),
-  updateEventConfig: (data: Record<string, unknown>) => apiCall('config', 'POST', data),
-  
-  login: (pin: string) => apiCall('auth/login', 'POST', { pin }),
+  // Participants
+  getParticipants: () => apiCall({ action: 'participants' }),
+  getParticipant: (id: string) => apiCall({ action: 'participant', id }),
+  searchParticipants: (q: string) => apiCall({ action: 'search', q }),
+  registerParticipant: (data: Record<string, unknown>) =>
+    apiPost({ action: 'register', ...data }),
+
+  // Meals
+  verifyMeal: (regId: string) => apiCall({ action: 'verify', regId }),
+  recordMeal: (registrationId: string, distributedBy: string) =>
+    apiPost({ action: 'recordMeal', registrationId, distributedBy }),
+  getMealHistory: (regId: string) => apiCall({ action: 'meals', regId }),
+
+  // Stats
+  getStats: () => apiCall({ action: 'stats' }),
 };

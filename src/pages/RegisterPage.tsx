@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import RegistrationCard from '../components/RegistrationCard'
-import { fetchSheetData } from '../sheetService'
+import { useSheetData } from '../useSheetData'
+import ConfigBanner from '../components/ConfigBanner'
 import type { Participant } from '../types'
 
 const defaultForm = {
@@ -18,14 +19,12 @@ const defaultForm = {
 
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const { data: sheetData, error: sheetError } = useSheetData()
   const [form, setForm] = useState(defaultForm)
   const [saved, setSaved] = useState<Participant | null>(null)
   const [showCard, setShowCard] = useState(false)
-  const [sheetCount, setSheetCount] = useState(0)
 
-  useEffect(() => {
-    fetchSheetData().then((data) => setSheetCount(data.length))
-  }, [])
+  const sheetCount = sheetData.length
 
   const updateField = (field: string, value: string | number) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -68,6 +67,15 @@ export default function RegisterPage() {
     setForm(defaultForm)
     setSaved(null)
     setShowCard(false)
+  }
+
+  if (sheetError === 'APP_CONFIG_MISSING') {
+    return (
+      <div className="space-y-4 pt-4">
+        <h1 className="text-lg font-bold">New Registration</h1>
+        <ConfigBanner />
+      </div>
+    )
   }
 
   /* ==================== CARD RESULT VIEW ==================== */

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { fetchSheetData, getSheetStats, type SheetParticipant } from '../sheetService'
+import { getSheetStats } from '../sheetService'
+import { useSheetData } from '../useSheetData'
+import ConfigBanner from '../components/ConfigBanner'
 import type { MealRecord } from '../types'
 
 interface DayStat {
@@ -8,29 +10,18 @@ interface DayStat {
 }
 
 export default function StatsPage() {
-  const [participants, setParticipants] = useState<SheetParticipant[]>([])
+  const { data: participants, loading, error } = useSheetData()
   const [dayStats, setDayStats] = useState<DayStat[]>([])
   const [totalMeals, setTotalMeals] = useState(0)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const loadData = async () => {
-      const data = await fetchSheetData()
-      setParticipants(data)
-
-      const meals: MealRecord[] = JSON.parse(
-        localStorage.getItem('meals') || '[]'
-      )
-      setTotalMeals(meals.length)
-
-      const stats: DayStat[] = Array.from({ length: 6 }, (_, i) => ({
-        day: i + 1,
-        count: meals.filter((m) => m.dayNumber === i + 1).length,
-      }))
-      setDayStats(stats)
-      setLoading(false)
-    }
-    loadData()
+    const meals: MealRecord[] = JSON.parse(localStorage.getItem('meals') || '[]')
+    setTotalMeals(meals.length)
+    const stats: DayStat[] = Array.from({ length: 6 }, (_, i) => ({
+      day: i + 1,
+      count: meals.filter((m) => m.dayNumber === i + 1).length,
+    }))
+    setDayStats(stats)
   }, [])
 
   const maxMeals = Math.max(...dayStats.map((d) => d.count), 1)
@@ -40,6 +31,15 @@ export default function StatsPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (error === 'APP_CONFIG_MISSING') {
+    return (
+      <div className="space-y-4 pt-4">
+        <h1 className="text-lg font-bold">Statistics</h1>
+        <ConfigBanner />
       </div>
     )
   }

@@ -1,50 +1,29 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import {
-  fetchSheetData,
   searchParticipants,
   getSheetStats,
-  type SheetParticipant,
 } from '../sheetService'
+import { useSheetData } from '../useSheetData'
+import ConfigBanner from '../components/ConfigBanner'
 import type { MealRecord } from '../types'
 
 export default function ParticipantsPage() {
-  const [participants, setParticipants] = useState<SheetParticipant[]>([])
-  const [filtered, setFiltered] = useState<SheetParticipant[]>([])
+  const { data: participants, loading, error, refresh } = useSheetData()
+  const [filtered, setFiltered] = useState(participants)
   const [meals, setMeals] = useState<MealRecord[]>([])
   const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState<SheetParticipant | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [refreshing, setRefreshing] = useState(false)
+  const [selected, setSelected] = useState<any | null>(null)
   const [stats, setStats] = useState<ReturnType<typeof getSheetStats> | null>(null)
   const [view, setView] = useState<'list' | 'stats'>('list')
   const [page, setPage] = useState(1)
   const PAGE_SIZE = 50
 
-  const loadData = useCallback(async (force = false) => {
-    if (force) setRefreshing(true)
-    else setLoading(true)
-
-    try {
-      const data = await fetchSheetData(force)
-      setParticipants(data)
-      setFiltered(data)
-      setStats(getSheetStats(data))
-
-      const storedMeals: MealRecord[] = JSON.parse(
-        localStorage.getItem('meals') || '[]'
-      )
-      setMeals(storedMeals)
-    } catch (err) {
-      console.error('Failed to load data:', err)
-    } finally {
-      setLoading(false)
-      setRefreshing(false)
-    }
-  }, [])
-
   useEffect(() => {
-    loadData()
-  }, [loadData])
+    setFiltered(participants)
+    setStats(getSheetStats(participants))
+    const storedMeals: MealRecord[] = JSON.parse(localStorage.getItem('meals') || '[]')
+    setMeals(storedMeals)
+  }, [participants])
 
   useEffect(() => {
     if (!search.trim()) {
@@ -75,6 +54,15 @@ export default function ParticipantsPage() {
     )
   }
 
+  if (error === 'APP_CONFIG_MISSING') {
+    return (
+      <div className="space-y-4 pt-4">
+        <h1 className="text-lg font-bold">Participants</h1>
+        <ConfigBanner />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4 pt-4">
       {/* Header */}
@@ -87,11 +75,10 @@ export default function ParticipantsPage() {
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => loadData(true)}
-            disabled={refreshing}
-            className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg font-medium disabled:opacity-50"
+            onClick={refresh}
+            className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg font-medium"
           >
-            {refreshing ? '...' : '↻ Refresh'}
+            ↻ Refresh
           </button>
           <button
             onClick={() => setView(view === 'list' ? 'stats' : 'list')}
