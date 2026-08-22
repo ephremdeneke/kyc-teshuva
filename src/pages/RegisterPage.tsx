@@ -61,7 +61,12 @@ export default function RegisterPage() {
     localStorage.setItem('participants', JSON.stringify(existing))
   }
 
-  const handlePrint = () => window.print()
+  const handlePrint = async () => {
+    /* Wait until card images are decoded so the background prints as designed */
+    const imgs = Array.from(document.querySelectorAll('img'))
+    await Promise.all(imgs.map((img) => (img.complete ? Promise.resolve() : img.decode().catch(() => {}))))
+    window.print()
+  }
 
   const handleNewRegistration = () => {
     setForm(defaultForm)
@@ -81,7 +86,7 @@ export default function RegisterPage() {
   /* ==================== CARD RESULT VIEW ==================== */
   if (showCard && saved) {
     return (
-      <div className="space-y-4 pt-4">
+      <div className="space-y-4 pt-4 print-area">
         <div className="flex items-center justify-between no-print">
           <h1 className="text-lg font-bold text-gray-900">Registration Card</h1>
           <button onClick={handleNewRegistration} className="text-sm text-emerald-600 font-semibold">

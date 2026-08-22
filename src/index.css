@@ -55,58 +55,125 @@
 
 /* ==================== PRINT STYLES ==================== */
 @media print {
-  /* Hide everything */
-  body > * {
-    visibility: hidden !important;
-    display: none !important;
+  /* Force browsers to keep backgrounds/gradients/images exactly as designed */
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  /* Show only print-area */
-  .print-area,
-  .print-area * {
-    visibility: visible !important;
+  /* Kill the screen layout */
+  .page-container {
     display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
   }
 
-  .print-area {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-  }
-
-  /* Hide non-print elements inside print-area */
+  /* Hide screen-only elements */
+  .sticky,
+  .nav-bar,
   .no-print,
   .no-print * {
     display: none !important;
     visibility: hidden !important;
   }
 
-  /* Print layout: flex wrap with cutting gutters */
-  .print-area {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 0 !important;
-    padding: 2mm !important;
+  /* Reset body for print */
+  body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* Each card-cut-gutter provides padding for cutting + separation between pairs */
-  .card-cut-gutter {
-    padding: 4mm 2mm !important;
-    margin: 4mm 0 !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    border-bottom: 0.3pt dashed #ccc !important;
+  /* Reset main container */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide everything inside main that isn't print-area */
+  main > *:not(.print-area) {
+    display: none !important;
+  }
+
+  /* Print area: full width, block layout */
+  .print-area {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Each card-page = one A4 sheet — cards start at the TOP */
+  .card-page {
+    width: 190mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 85.6mm) !important;
+    grid-template-rows: repeat(4, 53.98mm) !important;
+    gap: 6mm !important;
+    justify-content: center !important;
+    align-content: start !important;
+    page-break-after: always !important;
+    position: relative !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .card-page:last-child {
+    page-break-after: avoid !important;
+  }
+
+  /* Cut guides */
+  .cut-guide {
+    position: absolute !important;
+    z-index: 100 !important;
+    pointer-events: none !important;
+  }
+
+  .cut-guide-col {
+    left: 50% !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 0 !important;
+    border-left: 0.3pt dashed #ddd !important;
+  }
+
+  .cut-guide-row {
+    left: 0 !important;
+    right: 0 !important;
+    height: 0 !important;
+    border-top: 0.3pt dashed #ddd !important;
+  }
+
+  .cut-guide-row-1 { top: calc(53.98mm + 3mm) !important; }
+  .cut-guide-row-2 { top: calc((53.98mm + 6mm) * 2 - 3mm) !important; }
+  .cut-guide-row-3 { top: calc((53.98mm + 6mm) * 3 - 6mm) !important; }
+
+  /* Card cells */
+  .card-cell {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .card-cell.show-front .card-back-wrap {
+    display: none !important;
+  }
+
+  .card-cell.show-back .card-front-wrap {
+    display: none !important;
   }
 
   .print-card {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    display: inline-flex !important;
-    gap: 2mm !important;
+    display: flex !important;
+    gap: 0 !important;
   }
 
+  /* Card dimensions for print */
   .card-front-wrap,
   .card-back-wrap {
     width: 85.6mm !important;
@@ -114,6 +181,8 @@
     border-radius: 3mm !important;
     box-shadow: none !important;
     border: 0.3pt solid #ccc !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .card-bg-blur {

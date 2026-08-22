@@ -147,25 +147,29 @@
 }
 
 .card-participant-name {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  line-height: 1.2;
-  max-width: 260px;
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.55),
+    0 2px 5px rgba(0, 0, 0, 0.45);
+  line-height: 1.15;
+  max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .card-participant-id {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 800;
   font-family: 'Courier New', monospace;
-  letter-spacing: 1px;
-  opacity: 0.85;
-  margin-top: 3px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1.5px;
+  opacity: 1;
+  margin-top: 4px;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .card-participant-role {
@@ -287,6 +291,46 @@
   opacity: 0.35;
   margin-top: 1px;
   letter-spacing: 0.5px;
+}
+
+/* ============ SCREEN PREVIEW (WYSIWYG A4 sheets) ============ */
+/* Same geometry as the @media print grid so the preview shows
+   exactly what will be printed: 8 cards per A4 side. */
+@media screen {
+  .card-page {
+    position: relative;
+    width: 210mm;
+    min-height: 297mm;
+    display: grid;
+    grid-template-columns: repeat(2, 85.6mm);
+    grid-template-rows: repeat(4, 53.98mm);
+    gap: 6mm;
+    justify-content: center;
+    align-content: start;
+    margin: 0 auto 24px;
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .card-page-back {
+    background: #fafafa;
+  }
+
+  .card-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-cell.show-front .card-back-wrap {
+    display: none;
+  }
+
+  .card-cell.show-back .card-front-wrap {
+    display: none;
+  }
 }
 
 /* ============ PRINT ============ */

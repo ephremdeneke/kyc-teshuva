@@ -15,7 +15,10 @@ export default function RegistrationCard({ participant, variant }: Props) {
   return (
     <div className="card-cut-gutter print-area">
       {/* ==================== FRONT ==================== */}
-      <div className="card-front-wrap">
+      <div
+        className="card-front-wrap"
+        style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
         <img src={bgImage} alt="" className="card-bg-img" />
         <div className="card-bg-blur" />
         <div className="card-bg-overlay" />
@@ -53,7 +56,10 @@ export default function RegistrationCard({ participant, variant }: Props) {
       </div>
 
       {/* ==================== BACK ==================== */}
-      <div className="card-back-wrap">
+      <div
+        className="card-back-wrap"
+        style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
         <img src={bgImage} alt="" className="card-bg-img" />
         <div className="card-bg-blur" />
         <div className="card-bg-overlay card-bg-overlay-dark" />
